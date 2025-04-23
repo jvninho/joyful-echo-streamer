@@ -18,7 +18,6 @@ export const Header = () => {
           <div className="text-2xl font-bold text-akatsuki">FRG PRONOS</div>
         </div>
         
-        {/* Mobile menu button */}
         <button 
           className="md:hidden"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -57,7 +56,7 @@ export const Header = () => {
             <li><Link to="#pricing" className="font-bold text-akatsuki-gold hover:text-akatsuki transition">Devenir VIP</Link></li>
             <li><Link to="/vip" className="hover:text-akatsuki-gold transition">Espace VIP</Link></li>
             <li><Link to="/faq" className="hover:text-akatsuki-gold transition">FAQ</Link></li>
-            <li><Link to="/contact" className="hover:text-akatsuki-gold transition">Contact</Link></li>
+            <li><Link to="/contact" className="hover:text-akatsuki-gold transition">Nous contacter</Link></li>
             <li><Link to="/login" className="hover:text-akatsuki-gold transition">Mon compte</Link></li>
           </ul>
         </nav>
@@ -71,7 +70,7 @@ export const Header = () => {
             <li><Link to="#pricing" className="block py-2 font-bold text-akatsuki-gold hover:text-akatsuki transition">Devenir VIP</Link></li>
             <li><Link to="/vip" className="block py-2 hover:text-akatsuki-gold transition">Espace VIP</Link></li>
             <li><Link to="/faq" className="block py-2 hover:text-akatsuki-gold transition">FAQ</Link></li>
-            <li><Link to="/contact" className="block py-2 hover:text-akatsuki-gold transition">Contact</Link></li>
+            <li><Link to="/contact" className="block py-2 hover:text-akatsuki-gold transition">Nous contacter</Link></li>
             <li><Link to="/login" className="block py-2 hover:text-akatsuki-gold transition">Mon compte</Link></li>
           </ul>
         </nav>
