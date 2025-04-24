@@ -1,13 +1,4 @@
 
-interface User {
-  email: string;
-  password: string;
-  isAdmin: boolean;
-  isLoggedIn: boolean;
-  lastLogin: string;
-  name: string;
-}
-
 export const useAuth = () => {
   const isLoggedIn = () => {
     const user = localStorage.getItem('frg-user');
@@ -34,7 +25,7 @@ export const useAuth = () => {
   };
 
   const checkAdminCredentials = (email: string, password: string) => {
-    return email === "dio" && password === "Boss@94";
+    return email === "diomande.ble@laposte.net" && password === "Ble@94";
   };
 
   return { isLoggedIn, isAdmin, checkAdminCredentials };
