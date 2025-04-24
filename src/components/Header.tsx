@@ -11,11 +11,11 @@ export const Header = () => {
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center space-x-4">
           <img 
-            src="/lovable-uploads/e77e5a53-8558-4ddf-b276-0b1ed3b20282.png" 
-            alt="FRG Pronos Logo" 
+            src="/lovable-uploads/ee4bcac4-2828-45d7-9260-48755b1e641e.png" 
+            alt="Pronos Stats Empire Logo" 
             className="h-12 w-12"
           />
-          <div className="text-2xl font-bold text-akatsuki">FRG PRONOS</div>
+          <div className="text-2xl font-bold text-akatsuki">PRONOS STATS EMPIRE</div>
         </div>
         
         <button 

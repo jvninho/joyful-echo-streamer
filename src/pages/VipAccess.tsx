@@ -1,3 +1,4 @@
+
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -60,31 +61,6 @@ const generateMatches = () => {
   }
   return matches;
 };
-
-// Top performers data
-const topScorersData = [
-  { name: "Kylian Mbappé", team: "Real Madrid", goals: 15 },
-  { name: "Erling Haaland", team: "Manchester City", goals: 14 },
-  { name: "Robert Lewandowski", team: "Barcelona", goals: 12 },
-  { name: "Harry Kane", team: "Bayern Munich", goals: 11 },
-  { name: "Mohamed Salah", team: "Liverpool", goals: 10 }
-];
-
-const topAssistsData = [
-  { name: "Kevin De Bruyne", team: "Manchester City", assists: 12 },
-  { name: "Lionel Messi", team: "Inter Miami", assists: 10 },
-  { name: "Bruno Fernandes", team: "Manchester United", assists: 9 },
-  { name: "Ousmane Dembélé", team: "PSG", assists: 8 },
-  { name: "Trent Alexander-Arnold", team: "Liverpool", assists: 7 }
-];
-
-const topRefereesData = [
-  { name: "Clément Turpin", league: "Ligue 1", cards: 45 },
-  { name: "Michael Oliver", league: "Premier League", cards: 42 },
-  { name: "Daniele Orsato", league: "Serie A", cards: 38 },
-  { name: "Felix Brych", league: "Bundesliga", cards: 37 },
-  { name: "Mateu Lahoz", league: "La Liga", cards: 35 }
-];
 
 // Available leagues data
 const leagues = [
@@ -314,149 +290,116 @@ const VipAccess = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-cover bg-center bg-fixed" style={{ backgroundImage: 'url("https://static.onzemondial.com/8/2025/04/photo_article/952529/382642/1200-L-psg-le-record-d-europe-hallucinant-des-parisiens.jpg")' }}>
       <Header />
       <main className="flex-grow container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-center mb-8">Espace VIP - FRG PRONOS</h1>
-        
-        <div className="flex flex-wrap border-b mb-6">
-          <button 
-            onClick={() => setActiveTab('predictions')}
-            className={`px-4 py-2 ${activeTab === 'predictions' ? 'border-b-2 border-akatsuki-gold text-akatsuki font-semibold' : 'text-gray-500'}`}
-          >
-            Pronostics du jour
-          </button>
-          <button 
-            onClick={() => setActiveTab('live')}
-            className={`px-4 py-2 ${activeTab === 'live' ? 'border-b-2 border-akatsuki-gold text-akatsuki font-semibold' : 'text-gray-500'}`}
-          >
-            Matchs en direct
-          </button>
-          <button 
-            onClick={() => setActiveTab('stats')}
-            className={`px-4 py-2 ${activeTab === 'stats' ? 'border-b-2 border-akatsuki-gold text-akatsuki font-semibold' : 'text-gray-500'}`}
-          >
-            Valeurs sûres
-          </button>
-        </div>
-
-        {activeTab === 'stats' && (
-          <div className="mb-6 flex gap-4">
-            <Button
-              onClick={() => setSelectedStatsTab('scorers')}
-              variant={selectedStatsTab === 'scorers' ? "default" : "outline"}
+        <div className="bg-black/70 rounded-lg p-6 text-white">
+          <h1 className="text-3xl font-bold text-center mb-8">Espace VIP - PRONOS STATS EMPIRE</h1>
+          
+          <div className="flex flex-wrap border-b mb-6 border-gray-600">
+            <button 
+              onClick={() => setActiveTab('predictions')}
+              className={`px-4 py-2 ${activeTab === 'predictions' ? 'border-b-2 border-akatsuki-gold text-akatsuki-gold font-semibold' : 'text-gray-300'}`}
             >
-              Top Buteurs
-            </Button>
-            <Button
-              onClick={() => setSelectedStatsTab('assists')}
-              variant={selectedStatsTab === 'assists' ? "default" : "outline"}
+              Pronostics du jour
+            </button>
+            <button 
+              onClick={() => setActiveTab('stats')}
+              className={`px-4 py-2 ${activeTab === 'stats' ? 'border-b-2 border-akatsuki-gold text-akatsuki-gold font-semibold' : 'text-gray-300'}`}
             >
-              Top Passeurs
-            </Button>
-            <Button
-              onClick={() => setSelectedStatsTab('referees')}
-              variant={selectedStatsTab === 'referees' ? "default" : "outline"}
-            >
-              Top Arbitres
-            </Button>
+              Valeurs sûres
+            </button>
           </div>
-        )}
-        
-        {/* Refresh Button */}
-        <div className="flex justify-end mb-4">
-          <Button 
-            onClick={refreshData}
-            disabled={refreshing}
-            className="bg-akatsuki-gold hover:bg-yellow-500 text-black"
-          >
-            {refreshing ? 'Actualisation...' : 'Actualiser les données'}
-          </Button>
-        </div>
 
-        {activeTab === 'predictions' && (
-          <div className="space-y-8">
-            <h2 className="text-2xl font-semibold">Pronostics du jour</h2>
-            {matches.map(match => (
-              <div key={match.id} className="bg-white rounded-lg shadow-lg p-6">
-                <div className="flex flex-col md:flex-row justify-between items-center mb-4">
-                  <div className="text-xl font-bold mb-2 md:mb-0">
-                    {match.homeTeam} vs {match.awayTeam}
-                  </div>
-                  <div className="flex space-x-4 text-sm">
-                    <div className="bg-gray-100 px-3 py-1 rounded-full">
-                      <span className="font-semibold">1</span>: {match.homeOdds}
-                    </div>
-                    <div className="bg-gray-100 px-3 py-1 rounded-full">
-                      <span className="font-semibold">X</span>: {match.drawOdds}
-                    </div>
-                    <div className="bg-gray-100 px-3 py-1 rounded-full">
-                      <span className="font-semibold">2</span>: {match.awayOdds}
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="bg-gray-50 p-4 rounded-lg mb-4">
-                  <h3 className="text-lg font-semibold mb-2">Notre prédiction: <span className="text-akatsuki">{match.prediction}</span></h3>
-                  <p>{match.analysis}</p>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="font-semibold mb-2">Buteurs potentiels:</h4>
-                    <ul className="list-disc list-inside">
-                      <li>Benzema ({match.homeTeam}) - 40%</li>
-                      <li>Lewandowski ({match.awayTeam}) - 35%</li>
-                      <li>Vinicius ({match.homeTeam}) - 25%</li>
-                    </ul>
-                  </div>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="font-semibold mb-2">Score exact:</h4>
-                    <ul className="list-disc list-inside">
-                      <li>2-1: 25%</li>
-                      <li>1-1: 20%</li>
-                      <li>2-0: 15%</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-        
-        {activeTab === 'live' && (
-          <div>
-            <h2 className="text-2xl font-semibold mb-6">Matchs en direct</h2>
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Heure</TableHead>
-                    <TableHead>Match</TableHead>
-                    <TableHead>Score</TableHead>
-                    <TableHead>Minute</TableHead>
-                    <TableHead>Statistiques</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {matches.map(match => (
-                    <TableRow key={match.id}>
-                      <TableCell>20:45</TableCell>
-                      <TableCell className="font-medium">{match.homeTeam} vs {match.awayTeam}</TableCell>
-                      <TableCell className="font-bold">{match.homeScore} - {match.awayScore}</TableCell>
-                      <TableCell>{Math.floor(Math.random() * 90)}′</TableCell>
-                      <TableCell>
-                        <Button variant="outline" size="sm">Voir</Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+          {activeTab === 'stats' && (
+            <div className="mb-6 flex flex-wrap gap-4">
+              <Button
+                onClick={() => setSelectedStatsTab('scorers')}
+                variant={selectedStatsTab === 'scorers' ? "default" : "outline"}
+                className={selectedStatsTab === 'scorers' ? "bg-akatsuki-gold text-black" : ""}
+              >
+                Top Buteurs
+              </Button>
+              <Button
+                onClick={() => setSelectedStatsTab('assists')}
+                variant={selectedStatsTab === 'assists' ? "default" : "outline"}
+                className={selectedStatsTab === 'assists' ? "bg-akatsuki-gold text-black" : ""}
+              >
+                Top Passeurs
+              </Button>
+              <Button
+                onClick={() => setSelectedStatsTab('referees')}
+                variant={selectedStatsTab === 'referees' ? "default" : "outline"}
+                className={selectedStatsTab === 'referees' ? "bg-akatsuki-gold text-black" : ""}
+              >
+                Top Arbitres
+              </Button>
             </div>
+          )}
+          
+          {/* Refresh Button */}
+          <div className="flex justify-end mb-4">
+            <Button 
+              onClick={refreshData}
+              disabled={refreshing}
+              className="bg-akatsuki-gold hover:bg-yellow-500 text-black"
+            >
+              {refreshing ? 'Actualisation...' : 'Actualiser les données'}
+            </Button>
           </div>
-        )}
-        
-        {activeTab === 'stats' && renderStatsContent()}
+
+          {activeTab === 'predictions' && (
+            <div className="space-y-8">
+              <h2 className="text-2xl font-semibold">Pronostics du jour</h2>
+              {matches.map(match => (
+                <div key={match.id} className="bg-white rounded-lg shadow-lg p-6 text-black">
+                  <div className="flex flex-col md:flex-row justify-between items-center mb-4">
+                    <div className="text-xl font-bold mb-2 md:mb-0">
+                      {match.homeTeam} vs {match.awayTeam}
+                    </div>
+                    <div className="flex space-x-4 text-sm">
+                      <div className="bg-gray-100 px-3 py-1 rounded-full">
+                        <span className="font-semibold">1</span>: {match.homeOdds}
+                      </div>
+                      <div className="bg-gray-100 px-3 py-1 rounded-full">
+                        <span className="font-semibold">X</span>: {match.drawOdds}
+                      </div>
+                      <div className="bg-gray-100 px-3 py-1 rounded-full">
+                        <span className="font-semibold">2</span>: {match.awayOdds}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-gray-50 p-4 rounded-lg mb-4">
+                    <h3 className="text-lg font-semibold mb-2">Notre prédiction: <span className="text-akatsuki">{match.prediction}</span></h3>
+                    <p>{match.analysis}</p>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <h4 className="font-semibold mb-2">Buteurs potentiels:</h4>
+                      <ul className="list-disc list-inside">
+                        <li>Benzema ({match.homeTeam}) - 40%</li>
+                        <li>Lewandowski ({match.awayTeam}) - 35%</li>
+                        <li>Vinicius ({match.homeTeam}) - 25%</li>
+                      </ul>
+                    </div>
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <h4 className="font-semibold mb-2">Score exact:</h4>
+                      <ul className="list-disc list-inside">
+                        <li>2-1: 25%</li>
+                        <li>1-1: 20%</li>
+                        <li>2-0: 15%</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+          
+          {activeTab === 'stats' && renderStatsContent()}
+        </div>
       </main>
       <Footer />
     </div>

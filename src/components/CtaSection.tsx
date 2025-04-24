@@ -1,7 +1,18 @@
 
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { PaymentOptions } from "./PaymentOptions";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export const CtaSection = () => {
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<{ title: string; price: string } | null>(null);
+
+  const handlePlanSelection = (title: string, price: string) => {
+    setSelectedPlan({ title, price });
+    setIsPaymentModalOpen(true);
+  };
+
   return (
     <div id="pricing" className="py-16 bg-gradient-to-r from-akatsuki-dark to-akatsuki text-white">
       <div className="container mx-auto px-4 text-center">
@@ -20,6 +31,7 @@ export const CtaSection = () => {
               "Analyse détaillée des matchs",
               "Support par email"
             ]}
+            onSelect={handlePlanSelection}
           />
           
           <OfferCard 
@@ -34,6 +46,7 @@ export const CtaSection = () => {
               "Accès groupe Telegram VIP",
               "Support prioritaire"
             ]}
+            onSelect={handlePlanSelection}
           />
           
           <OfferCard 
@@ -48,9 +61,25 @@ export const CtaSection = () => {
               "Support 24/7",
               "Consultation téléphonique"
             ]}
+            onSelect={handlePlanSelection}
           />
         </div>
       </div>
+
+      {/* Modal de paiement */}
+      <Dialog open={isPaymentModalOpen} onOpenChange={setIsPaymentModalOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Choisissez votre méthode de paiement</DialogTitle>
+            <DialogDescription>
+              Sélectionnez comment vous souhaitez payer votre abonnement
+            </DialogDescription>
+          </DialogHeader>
+          {selectedPlan && (
+            <PaymentOptions planName={selectedPlan.title} price={selectedPlan.price} />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
@@ -61,9 +90,10 @@ interface OfferCardProps {
   period: string;
   features: string[];
   featured?: boolean;
+  onSelect: (title: string, price: string) => void;
 }
 
-const OfferCard = ({ title, price, period, features, featured = false }: OfferCardProps) => {
+const OfferCard = ({ title, price, period, features, featured = false, onSelect }: OfferCardProps) => {
   return (
     <div className={`bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform ${featured ? 'scale-105 md:-mt-4 ring-2 ring-akatsuki-gold' : ''}`}>
       <div className={`p-6 text-center ${featured ? 'bg-akatsuki-gold text-akatsuki-black' : 'bg-gray-100 text-akatsuki-black'}`}>
@@ -85,7 +115,10 @@ const OfferCard = ({ title, price, period, features, featured = false }: OfferCa
           ))}
         </ul>
         
-        <Button className={`w-full ${featured ? 'bg-akatsuki-gold hover:bg-yellow-500 text-akatsuki-black' : 'bg-akatsuki hover:bg-akatsuki-dark text-white'} font-bold py-2 rounded transition-colors`}>
+        <Button
+          onClick={() => onSelect(title, price)}
+          className={`w-full ${featured ? 'bg-akatsuki-gold hover:bg-yellow-500 text-akatsuki-black' : 'bg-akatsuki hover:bg-akatsuki-dark text-white'} font-bold py-2 rounded transition-colors`}
+        >
           Sélectionner
         </Button>
       </div>

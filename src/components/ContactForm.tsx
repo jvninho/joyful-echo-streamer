@@ -19,23 +19,6 @@ export const ContactForm = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-      setFormData({ name: "", email: "", message: "" });
-      
-      // Reset success message after 5 seconds
-      setTimeout(() => {
-        setSubmitted(false);
-      }, 5000);
-    }, 1000);
-  };
-
   return (
     <div className="py-16 bg-white" id="contact">
       <div className="container mx-auto px-4">
@@ -51,7 +34,15 @@ export const ContactForm = () => {
               <p>Merci de nous avoir contactés. Notre équipe vous répondra dans les plus brefs délais.</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form 
+              action="https://formspree.io/f/mdkgoyob"
+              method="POST" 
+              className="space-y-6"
+              onSubmit={() => {
+                setSubmitted(true);
+                setFormData({ name: "", email: "", message: "" });
+              }}
+            >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700">Nom</label>
@@ -113,7 +104,7 @@ export const ContactForm = () => {
                 </svg>
               </div>
               <h3 className="text-lg font-semibold mb-1">Email</h3>
-              <p className="text-gray-600">contact@akatsuki-pronos.fr</p>
+              <p className="text-gray-600">contact@pronos-stats-empire.fr</p>
             </div>
             <div>
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-akatsuki-light text-akatsuki mb-4">
