@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export const Hero = () => {
   return (
-    <div className="py-16 md:py-24 text-center bg-gradient-to-b from-green-900/90 to-black text-white">
+    <div className="py-16 md:py-24 text-center bg-gradient-to-b from-green-900/90 to-black">
       <motion.div 
         className="logo mb-10"
         initial={{ opacity: 0, y: -50 }}
@@ -23,7 +23,7 @@ export const Hero = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.3 }}
       >
-        <h2 className="text-2xl md:text-3xl font-semibold mb-3">Votre Expert et conseil en paris sportif PRONOS STATS EMPIRE</h2>
+        <h2 className="text-2xl md:text-3xl font-semibold mb-3 text-white">Votre Expert et conseil en paris sportif PRONOS STATS EMPIRE</h2>
         <h3 className="text-xl md:text-2xl mb-8 text-gray-300">Pronostiques sportifs <span className="text-yellow-500 font-bold">80% de réussites</span> avec PRONOS STATS EMPIRE</h3>
         <Button 
           asChild 

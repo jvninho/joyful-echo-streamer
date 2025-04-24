@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,7 +6,7 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 0 0% 10%;
-
+    
     --card: 0 0% 100%;
     --card-foreground: 0 0% 10%;
 
@@ -97,13 +96,9 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-[#0a0a0a] text-black;
     scroll-behavior: smooth;
     font-family: 'Montserrat', sans-serif;
-  }
-
-  html {
-    scroll-behavior: smooth;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -112,7 +107,6 @@
   }
 }
 
-/* Custom styles for FRG Pronos */
 .cloud {
   position: relative;
   transition: all 0.3s ease;

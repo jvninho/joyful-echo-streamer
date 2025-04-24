@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -19,10 +18,7 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <div className="min-h-screen bg-fixed bg-cover bg-center" style={{ 
-        backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("/lovable-uploads/ee4bcac4-2828-45d7-9260-48755b1e641e.png")',
-        backgroundColor: '#0a0a0a'
-      }}>
+      <div className="min-h-screen bg-[#0a0a0a] text-black">
         <Toaster />
         <Sonner />
         <BrowserRouter>
