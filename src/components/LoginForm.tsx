@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { LogOut } from "lucide-react";
+import { useAuth } from "@/hooks/use-auth";
 
 const loginSchema = z.object({
   email: z.string().email("Email invalide"),
@@ -32,7 +32,6 @@ export const LoginForm = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   
-  // Check if user is already logged in
   useEffect(() => {
     const user = localStorage.getItem('frg-user');
     if (user) {
@@ -69,16 +68,39 @@ export const LoginForm = () => {
   const onLoginSubmit = (values: z.infer<typeof loginSchema>) => {
     console.log("Login values:", values);
     
-    // Check if user exists in localStorage
+    const { checkAdminCredentials } = useAuth();
+    
+    if (checkAdminCredentials(values.email, values.password)) {
+      localStorage.setItem('frg-user', JSON.stringify({
+        name: 'Dio Admin',
+        email: values.email,
+        isLoggedIn: true,
+        isAdmin: true,
+        lastLogin: new Date().toLocaleString('fr-FR')
+      }));
+      
+      toast({
+        title: "Connexion administrateur réussie",
+        description: "Bienvenue dans le panneau d'administration!",
+      });
+      
+      navigate("/admin");
+      return;
+    }
+    
     const users = JSON.parse(localStorage.getItem('frg-users') || '[]');
     const user = users.find((u: any) => u.email === values.email);
     
     if (user && user.password === values.password) {
-      // Store logged in state
+      user.lastLogin = new Date().toLocaleString('fr-FR');
+      localStorage.setItem('frg-users', JSON.stringify(users));
+      
       localStorage.setItem('frg-user', JSON.stringify({
         name: user.name,
         email: user.email,
-        isLoggedIn: true
+        isLoggedIn: true,
+        isAdmin: false,
+        lastLogin: user.lastLogin
       }));
       
       toast({
@@ -86,7 +108,6 @@ export const LoginForm = () => {
         description: "Bienvenue sur PRONOS STATS EMPIRE!",
       });
       
-      // Redirect to home or VIP page
       navigate("/vip");
     } else {
       toast({
@@ -100,10 +121,8 @@ export const LoginForm = () => {
   const onRegisterSubmit = (values: z.infer<typeof registerSchema>) => {
     console.log("Register values:", values);
     
-    // Get existing users or initialize empty array
     const users = JSON.parse(localStorage.getItem('frg-users') || '[]');
     
-    // Check if user already exists
     if (users.some((user: any) => user.email === values.email)) {
       toast({
         title: "Erreur d'inscription",
@@ -113,7 +132,6 @@ export const LoginForm = () => {
       return;
     }
     
-    // Save new user
     users.push({
       name: values.name,
       email: values.email,
@@ -121,11 +139,12 @@ export const LoginForm = () => {
     });
     localStorage.setItem('frg-users', JSON.stringify(users));
     
-    // Auto login after registration
     localStorage.setItem('frg-user', JSON.stringify({
       name: values.name,
       email: values.email,
-      isLoggedIn: true
+      isLoggedIn: true,
+      isAdmin: false,
+      lastLogin: new Date().toLocaleString('fr-FR')
     }));
     
     toast({
@@ -133,7 +152,6 @@ export const LoginForm = () => {
       description: "Bienvenue sur PRONOS STATS EMPIRE!",
     });
     
-    // Redirect to VIP page
     navigate("/vip");
   };
   
