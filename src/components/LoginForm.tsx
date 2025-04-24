@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { LogOut } from "lucide-react";
 
 const loginSchema = z.object({
   email: z.string().email("Email invalide"),
@@ -26,8 +27,26 @@ const registerSchema = z.object({
 
 export const LoginForm = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState<{name?: string; email?: string} | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
+  
+  // Check if user is already logged in
+  useEffect(() => {
+    const user = localStorage.getItem('frg-user');
+    if (user) {
+      try {
+        const parsedUser = JSON.parse(user);
+        if (parsedUser.isLoggedIn) {
+          setIsLoggedIn(true);
+          setUserData(parsedUser);
+        }
+      } catch (e) {
+        console.error("Error parsing user data", e);
+      }
+    }
+  }, []);
   
   const loginForm = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -64,7 +83,7 @@ export const LoginForm = () => {
       
       toast({
         title: "Connexion réussie",
-        description: "Bienvenue sur FRG PRONOS!",
+        description: "Bienvenue sur PRONOS STATS EMPIRE!",
       });
       
       // Redirect to home or VIP page
@@ -111,19 +130,69 @@ export const LoginForm = () => {
     
     toast({
       title: "Compte créé avec succès",
-      description: "Bienvenue sur FRG PRONOS!",
+      description: "Bienvenue sur PRONOS STATS EMPIRE!",
     });
     
     // Redirect to VIP page
     navigate("/vip");
   };
+  
+  const handleLogout = () => {
+    localStorage.removeItem('frg-user');
+    setIsLoggedIn(false);
+    setUserData(null);
+    toast({
+      title: "Déconnexion réussie",
+      description: "À bientôt sur PRONOS STATS EMPIRE!",
+    });
+    navigate("/");
+  };
+
+  if (isLoggedIn && userData) {
+    return (
+      <div className="max-w-md mx-auto mt-16 p-6 bg-white rounded-lg shadow-lg animate-fade-in">
+        <div className="mb-8 flex justify-center">
+          <img 
+            src="/lovable-uploads/ee4bcac4-2828-45d7-9260-48755b1e641e.png" 
+            alt="PRONOS STATS EMPIRE Logo" 
+            className="h-20 w-20 animate-bounce"
+          />
+        </div>
+        
+        <h2 className="text-2xl font-bold mb-6 text-center">Profil</h2>
+        
+        <div className="space-y-4 text-center">
+          <h3 className="text-xl font-semibold">Bienvenue, {userData.name}!</h3>
+          <p className="text-gray-600">{userData.email}</p>
+          
+          <div className="pt-4 border-t">
+            <Button 
+              onClick={handleLogout}
+              className="w-full bg-red-600 hover:bg-red-700 flex items-center justify-center gap-2"
+            >
+              <LogOut size={16} /> Se déconnecter
+            </Button>
+          </div>
+          
+          <div className="pt-4">
+            <Button 
+              onClick={() => navigate("/vip")}
+              className="w-full bg-green-600 hover:bg-green-700"
+            >
+              Accéder à l'espace VIP
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-md mx-auto mt-16 p-6 bg-white rounded-lg shadow-lg">
       <div className="mb-8 flex justify-center">
         <img 
-          src="/lovable-uploads/e77e5a53-8558-4ddf-b276-0b1ed3b20282.png" 
-          alt="FRG Pronos Logo" 
+          src="/lovable-uploads/ee4bcac4-2828-45d7-9260-48755b1e641e.png" 
+          alt="PRONOS STATS EMPIRE Logo" 
           className="h-20 w-20 animate-bounce"
         />
       </div>
@@ -133,13 +202,13 @@ export const LoginForm = () => {
       <div className="flex border-b mb-6">
         <button 
           onClick={() => setIsLogin(true)} 
-          className={`flex-1 py-2 text-center transition-colors ${isLogin ? 'border-b-2 border-akatsuki-gold font-semibold' : 'text-gray-500'}`}
+          className={`flex-1 py-2 text-center transition-colors ${isLogin ? 'border-b-2 border-green-500 font-semibold' : 'text-gray-500'}`}
         >
           Se connecter
         </button>
         <button 
           onClick={() => setIsLogin(false)} 
-          className={`flex-1 py-2 text-center transition-colors ${!isLogin ? 'border-b-2 border-akatsuki-gold font-semibold' : 'text-gray-500'}`}
+          className={`flex-1 py-2 text-center transition-colors ${!isLogin ? 'border-b-2 border-green-500 font-semibold' : 'text-gray-500'}`}
         >
           Créer un compte
         </button>
@@ -174,13 +243,13 @@ export const LoginForm = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full bg-akatsuki-gold hover:bg-yellow-500 text-black">
+            <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white">
               Se connecter
             </Button>
           </form>
         </Form>
         <div className="mt-4 text-center">
-          <a href="#" className="text-sm text-akatsuki hover:underline">Mot de passe oublié?</a>
+          <a href="#" className="text-sm text-green-600 hover:underline">Mot de passe oublié?</a>
         </div>
       </div>
       
@@ -239,7 +308,7 @@ export const LoginForm = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full border-akatsuki-gold bg-akatsuki-gold hover:bg-yellow-500 text-black">
+            <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white">
               Créer un compte
             </Button>
           </form>

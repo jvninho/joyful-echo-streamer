@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -52,10 +53,10 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-                akatsuki: {
-                    DEFAULT: '#FF0000', // Red color theme
-                    dark: '#CC0000',
-                    light: '#FF5555',
+                football: {
+                    DEFAULT: '#00843D', // Football green
+                    dark: '#006633',
+                    light: '#33A463',
                     gold: '#FFD700',
                     black: '#1A1A1A'
                 },
@@ -91,11 +92,21 @@ export default {
 					to: {
 						height: '0'
 					}
-				}
+				},
+                'pulse': {
+                    '0%, 100%': { opacity: '1' },
+                    '50%': { opacity: '0.6' },
+                },
+                'bounce-slow': {
+                    '0%, 100%': { transform: 'translateY(0)' },
+                    '50%': { transform: 'translateY(-10px)' },
+                }
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+                'pulse-slow': 'pulse 3s infinite',
+                'bounce-slow': 'bounce-slow 3s infinite',
 			}
 		}
 	},

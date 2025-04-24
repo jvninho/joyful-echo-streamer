@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Award, Users } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { BettingSimulator } from "@/components/BettingSimulator";
+import { motion } from "framer-motion";
 
 const isLoggedIn = () => {
   const user = localStorage.getItem('frg-user');
@@ -243,17 +244,22 @@ const VipAccess = () => {
       <div className="min-h-screen flex flex-col">
         <Header />
         <main className="flex-grow flex flex-col items-center justify-center p-4">
-          <div className="bg-black/70 p-8 rounded-lg max-w-md w-full">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="bg-black/70 p-8 rounded-lg max-w-md w-full"
+          >
             <p className="text-xl text-center mb-6 text-white">
               Ce contenu est réservé aux abonnés, merci de vous connecter
             </p>
             <Button 
               onClick={() => navigate("/login")}
-              className="w-full bg-akatsuki-gold hover:bg-yellow-500 text-black"
+              className="w-full bg-green-600 hover:bg-green-700 text-white"
             >
               Se connecter
             </Button>
-          </div>
+          </motion.div>
         </main>
         <Footer />
       </div>
@@ -266,11 +272,11 @@ const VipAccess = () => {
         return (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h3 className="text-xl font-semibold flex items-center gap-2">
+              <h3 className="text-xl font-semibold flex items-center gap-2 text-white">
                 <Award className="h-5 w-5" /> Top Buteurs
               </h3>
               <Select value={selectedLeague} onValueChange={setSelectedLeague}>
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-[180px] bg-white text-black">
                   <SelectValue placeholder="Sélectionner un championnat" />
                 </SelectTrigger>
                 <SelectContent>
@@ -284,17 +290,22 @@ const VipAccess = () => {
             </div>
             <div className="grid gap-4">
               {getTopScorers(selectedLeague).map((scorer, index) => (
-                <div key={index} className="flex items-center gap-4 p-4 bg-white rounded-lg shadow hover:scale-105 transition-transform duration-300">
+                <motion.div 
+                  key={index} 
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  className="flex items-center gap-4 p-4 bg-white rounded-lg shadow text-black"
+                >
                   <Avatar className="h-16 w-16">
                     <AvatarImage src={scorer.image} alt={scorer.name} />
                     <AvatarFallback><Users /></AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
-                    <h4 className="font-semibold">{scorer.name}</h4>
-                    <p className="text-sm text-gray-600">{scorer.team}</p>
+                    <h4 className="font-semibold text-black">{scorer.name}</h4>
+                    <p className="text-sm text-black">{scorer.team}</p>
                   </div>
-                  <div className="text-2xl font-bold text-akatsuki-gold">{scorer.goals}</div>
-                </div>
+                  <div className="text-2xl font-bold text-green-600">{scorer.goals}</div>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -303,11 +314,11 @@ const VipAccess = () => {
         return (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h3 className="text-xl font-semibold flex items-center gap-2">
+              <h3 className="text-xl font-semibold flex items-center gap-2 text-white">
                 <Award className="h-5 w-5" /> Top Passeurs
               </h3>
               <Select value={selectedLeague} onValueChange={setSelectedLeague}>
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-[180px] bg-white text-black">
                   <SelectValue placeholder="Sélectionner un championnat" />
                 </SelectTrigger>
                 <SelectContent>
@@ -321,17 +332,22 @@ const VipAccess = () => {
             </div>
             <div className="grid gap-4">
               {getTopAssists(selectedLeague).map((assister, index) => (
-                <div key={index} className="flex items-center gap-4 p-4 bg-white rounded-lg shadow hover:scale-105 transition-transform duration-300">
+                <motion.div 
+                  key={index} 
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  className="flex items-center gap-4 p-4 bg-white rounded-lg shadow text-black"
+                >
                   <Avatar className="h-16 w-16">
                     <AvatarImage src={assister.image} alt={assister.name} />
                     <AvatarFallback><Users /></AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
-                    <h4 className="font-semibold">{assister.name}</h4>
-                    <p className="text-sm text-gray-600">{assister.team}</p>
+                    <h4 className="font-semibold text-black">{assister.name}</h4>
+                    <p className="text-sm text-black">{assister.team}</p>
                   </div>
-                  <div className="text-2xl font-bold text-akatsuki-gold">{assister.assists}</div>
-                </div>
+                  <div className="text-2xl font-bold text-green-600">{assister.assists}</div>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -340,11 +356,11 @@ const VipAccess = () => {
         return (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h3 className="text-xl font-semibold flex items-center gap-2">
+              <h3 className="text-xl font-semibold flex items-center gap-2 text-white">
                 <Award className="h-5 w-5" /> Top Arbitres
               </h3>
               <Select value={selectedLeague} onValueChange={setSelectedLeague}>
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-[180px] bg-white text-black">
                   <SelectValue placeholder="Sélectionner un championnat" />
                 </SelectTrigger>
                 <SelectContent>
@@ -358,16 +374,21 @@ const VipAccess = () => {
             </div>
             <div className="grid gap-4">
               {getTopReferees(selectedLeague).map((referee, index) => (
-                <div key={index} className="flex items-center gap-4 p-4 bg-white rounded-lg shadow hover:scale-105 transition-transform duration-300">
+                <motion.div 
+                  key={index} 
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  className="flex items-center gap-4 p-4 bg-white rounded-lg shadow text-black"
+                >
                   <Avatar className="h-16 w-16">
                     <AvatarImage src={referee.image} alt={referee.name} />
                     <AvatarFallback><Users /></AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
-                    <h4 className="font-semibold">{referee.name}</h4>
+                    <h4 className="font-semibold text-black">{referee.name}</h4>
                   </div>
-                  <div className="text-2xl font-bold text-akatsuki-gold">{referee.cards} 🟨</div>
-                </div>
+                  <div className="text-2xl font-bold text-green-600">{referee.cards} 🟨</div>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -381,19 +402,24 @@ const VipAccess = () => {
     <div className="min-h-screen flex flex-col bg-cover bg-center bg-fixed" style={{ backgroundImage: 'url("https://static.onzemondial.com/8/2025/04/photo_article/952529/382642/1200-L-psg-le-record-d-europe-hallucinant-des-parisiens.jpg")' }}>
       <Header />
       <main className="flex-grow container mx-auto px-4 py-8">
-        <div className="bg-black/70 rounded-lg p-6 text-white">
-          <h1 className="text-3xl font-bold text-center mb-8 animate-fade-in">Espace VIP - PRONOS STATS EMPIRE</h1>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-black/70 rounded-lg p-6 text-white"
+        >
+          <h1 className="text-3xl font-bold text-center mb-8 animate-fade-in text-yellow-500">Espace VIP - PRONOS STATS EMPIRE</h1>
           
           <div className="flex flex-wrap border-b mb-6 border-gray-600">
             <button 
               onClick={() => setActiveTab('predictions')}
-              className={`px-4 py-2 ${activeTab === 'predictions' ? 'border-b-2 border-akatsuki-gold text-akatsuki-gold font-semibold' : 'text-gray-300'} transition-colors`}
+              className={`px-4 py-2 ${activeTab === 'predictions' ? 'border-b-2 border-yellow-500 text-yellow-500 font-semibold' : 'text-gray-300'} transition-colors`}
             >
               Pronostics du jour
             </button>
             <button 
               onClick={() => setActiveTab('stats')}
-              className={`px-4 py-2 ${activeTab === 'stats' ? 'border-b-2 border-akatsuki-gold text-akatsuki-gold font-semibold' : 'text-gray-300'} transition-colors`}
+              className={`px-4 py-2 ${activeTab === 'stats' ? 'border-b-2 border-yellow-500 text-yellow-500 font-semibold' : 'text-gray-300'} transition-colors`}
             >
               Valeurs sûres
             </button>
@@ -404,21 +430,21 @@ const VipAccess = () => {
               <Button
                 onClick={() => setSelectedStatsTab('scorers')}
                 variant={selectedStatsTab === 'scorers' ? "default" : "outline"}
-                className={selectedStatsTab === 'scorers' ? "bg-akatsuki-gold text-black" : ""}
+                className={selectedStatsTab === 'scorers' ? "bg-green-600 text-white border-green-600" : ""}
               >
                 Top Buteurs
               </Button>
               <Button
                 onClick={() => setSelectedStatsTab('assists')}
                 variant={selectedStatsTab === 'assists' ? "default" : "outline"}
-                className={selectedStatsTab === 'assists' ? "bg-akatsuki-gold text-black" : ""}
+                className={selectedStatsTab === 'assists' ? "bg-green-600 text-white border-green-600" : ""}
               >
                 Top Passeurs
               </Button>
               <Button
                 onClick={() => setSelectedStatsTab('referees')}
                 variant={selectedStatsTab === 'referees' ? "default" : "outline"}
-                className={selectedStatsTab === 'referees' ? "bg-akatsuki-gold text-black" : ""}
+                className={selectedStatsTab === 'referees' ? "bg-green-600 text-white border-green-600" : ""}
               >
                 Top Arbitres
               </Button>
@@ -430,7 +456,7 @@ const VipAccess = () => {
             <Button 
               onClick={refreshData}
               disabled={refreshing}
-              className="bg-akatsuki-gold hover:bg-yellow-500 text-black hover:scale-105 transition-transform"
+              className="bg-green-600 hover:bg-green-700 text-white hover:scale-105 transition-transform"
             >
               {refreshing ? 'Actualisation...' : 'Actualiser les données'}
             </Button>
@@ -440,7 +466,14 @@ const VipAccess = () => {
             <div className="space-y-8 animate-fade-in">
               <h2 className="text-2xl font-semibold">Pronostics du jour - {new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h2>
               {matches.map(match => (
-                <div key={match.id} className="bg-white rounded-lg shadow-lg p-6 text-black hover:shadow-xl transition-all">
+                <motion.div 
+                  key={match.id} 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  whileHover={{ translateY: -5 }}
+                  className="bg-white rounded-lg shadow-lg p-6 text-black hover:shadow-xl transition-all"
+                >
                   <div className="flex flex-col md:flex-row justify-between items-center mb-4">
                     <div>
                       <div className="text-xs text-gray-500">{match.competition} - {new Date(match.date).toLocaleDateString('fr-FR', {day: '2-digit', month: '2-digit'}) + ' ' + new Date(match.date).toLocaleTimeString('fr-FR', {hour: '2-digit', minute:'2-digit'})}</div>
@@ -495,13 +528,13 @@ const VipAccess = () => {
                       </ul>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           )}
           
           {activeTab === 'stats' && renderStatsContent()}
-        </div>
+        </motion.div>
       </main>
       <Footer />
     </div>
