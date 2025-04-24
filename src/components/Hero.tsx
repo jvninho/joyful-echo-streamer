@@ -11,10 +11,10 @@ export const Hero = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <div className="cloud relative bg-white p-6 rounded-full shadow-lg max-w-md mx-auto hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-          <h1 className="text-4xl md:text-5xl font-bold text-green-600">PRONOS STATS EMPIRE</h1>
+        <div className="cloud relative bg-black/80 p-6 rounded-full shadow-lg max-w-md mx-auto hover:shadow-[0_0_30px_rgba(34,197,94,0.5)] transition-all duration-300 hover:-translate-y-2 border border-green-500/30">
+          <h1 className="text-4xl md:text-5xl font-bold text-green-500">PRONOS STATS EMPIRE</h1>
         </div>
-        <div className="stars text-yellow-500 text-2xl md:text-3xl mt-4">★ ★ ★</div>
+        <div className="stars text-green-400 text-2xl md:text-3xl mt-4">★ ★ ★</div>
       </motion.div>
 
       <motion.div 
@@ -23,18 +23,18 @@ export const Hero = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.3 }}
       >
-        <h2 className="text-2xl md:text-3xl font-semibold mb-3 text-white">Votre Expert et conseil en paris sportif PRONOS STATS EMPIRE</h2>
-        <h3 className="text-xl md:text-2xl mb-8 text-gray-300">Pronostiques sportifs <span className="text-yellow-500 font-bold">80% de réussites</span> avec PRONOS STATS EMPIRE</h3>
+        <h2 className="text-2xl md:text-3xl font-semibold mb-3 text-green-400">Votre Expert et conseil en paris sportif PRONOS STATS EMPIRE</h2>
+        <h3 className="text-xl md:text-2xl mb-8 text-green-300">Pronostiques sportifs <span className="text-green-500 font-bold">80% de réussites</span> avec PRONOS STATS EMPIRE</h3>
         <Button 
           asChild 
-          className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+          className="bg-green-600 hover:bg-green-700 text-black font-bold py-3 px-8 rounded-lg text-lg transition-all shadow-lg hover:shadow-[0_0_20px_rgba(34,197,94,0.4)] transform hover:-translate-y-1"
         >
           <a href="#pricing">VOIR LES OFFRES VIP</a>
         </Button>
       </motion.div>
       
       <motion.div 
-        className="mt-16 bg-black/40 backdrop-blur-sm py-6 px-4 rounded-lg max-w-4xl mx-auto"
+        className="mt-16 bg-black/80 backdrop-blur-sm py-6 px-4 rounded-lg max-w-4xl mx-auto border border-green-500/30"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, delay: 0.6 }}
@@ -44,22 +44,22 @@ export const Hero = () => {
             className="text-center"
             whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
           >
-            <div className="text-4xl font-bold text-yellow-500 mb-2">+5000</div>
-            <div className="text-gray-300">Paris gagnants</div>
+            <div className="text-4xl font-bold text-green-500 mb-2">+5000</div>
+            <div className="text-green-400">Paris gagnants</div>
           </motion.div>
           <motion.div 
             className="text-center"
             whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
           >
-            <div className="text-4xl font-bold text-yellow-500 mb-2">80%</div>
-            <div className="text-gray-300">Taux de réussite</div>
+            <div className="text-4xl font-bold text-green-500 mb-2">80%</div>
+            <div className="text-green-400">Taux de réussite</div>
           </motion.div>
           <motion.div 
             className="text-center"
             whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
           >
-            <div className="text-4xl font-bold text-yellow-500 mb-2">+1000</div>
-            <div className="text-gray-300">Clients satisfaits</div>
+            <div className="text-4xl font-bold text-green-500 mb-2">+1000</div>
+            <div className="text-green-400">Clients satisfaits</div>
           </motion.div>
         </div>
       </motion.div>

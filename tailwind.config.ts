@@ -53,11 +53,11 @@ export default {
           foreground: 'hsl(var(--card-foreground))'
         },
         football: {
-          DEFAULT: '#00843D',
-          dark: '#006633',
-          light: '#33A463',
-          gold: '#FFD700',
-          black: '#1A1A1A'
+          DEFAULT: '#22c55e',
+          dark: '#15803d',
+          light: '#4ade80',
+          gold: '#22c55e',
+          black: '#0a0a0a'
         },
         sidebar: {
           DEFAULT: 'hsl(var(--sidebar-background))',
