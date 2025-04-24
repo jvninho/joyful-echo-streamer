@@ -1,4 +1,3 @@
-
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -9,8 +8,8 @@ import { useToast } from "@/hooks/use-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Award, Users } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { BettingSimulator } from "@/components/BettingSimulator";
 
-// Function to check if user is logged in
 const isLoggedIn = () => {
   const user = localStorage.getItem('frg-user');
   if (!user) return false;
@@ -23,46 +22,95 @@ const isLoggedIn = () => {
   }
 };
 
-// Helper functions to update match data
-const getRandomScore = () => {
-  return Math.floor(Math.random() * 4);
-};
-
-const getRandomOdds = () => {
-  return (1 + Math.random() * 3).toFixed(2);
-};
-
-// Mock match data for demonstration
-const generateMatches = () => {
-  const teams = [
-    "PSG", "Marseille", "Lyon", "Monaco", 
-    "Lille", "Rennes", "Real Madrid", "Barcelona", 
-    "Bayern Munich", "Manchester City", "Liverpool", "Juventus"
+const generateRealMatches = () => {
+  return [
+    {
+      id: 1,
+      homeTeam: "Paris Saint-Germain",
+      awayTeam: "Manchester City",
+      homeScore: null,
+      awayScore: null,
+      homeOdds: "2.10",
+      drawOdds: "3.50",
+      awayOdds: "3.25",
+      date: "2025-04-25 20:45",
+      competition: "Ligue des Champions",
+      prediction: "Paris Saint-Germain gagne",
+      analysis: "Le PSG est en grande forme à domicile avec 5 victoires consécutives. Manchester City montre des signes de fatigue en cette fin de saison. Les attaquants parisiens devraient faire la différence sur leur pelouse.",
+      keyPlayers: [
+        { name: "Kylian Mbappé", team: "PSG", role: "Attaquant", stats: "32 buts cette saison" },
+        { name: "Kevin De Bruyne", team: "Manchester City", role: "Milieu", stats: "16 passes décisives" }
+      ],
+      scorePredictions: [
+        { score: "2-1", probability: "30%" },
+        { score: "2-0", probability: "20%" },
+        { score: "1-0", probability: "15%" }
+      ],
+      scorers: [
+        { name: "Kylian Mbappé", team: "PSG", probability: "55%" },
+        { name: "Erling Haaland", team: "Manchester City", probability: "40%" },
+        { name: "Ousmane Dembélé", team: "PSG", probability: "25%" }
+      ]
+    },
+    {
+      id: 2,
+      homeTeam: "Marseille",
+      awayTeam: "Lyon",
+      homeScore: null,
+      awayScore: null,
+      homeOdds: "2.40",
+      drawOdds: "3.30",
+      awayOdds: "2.90",
+      date: "2025-04-24 21:00",
+      competition: "Ligue 1",
+      prediction: "Match nul",
+      analysis: "Le classique du football français s'annonce très serré. Les deux équipes sont au coude à coude au classement et ont montré des performances similaires lors des dernières journées. Les derbys sont souvent tendus et peuvent se terminer sur un match nul.",
+      keyPlayers: [
+        { name: "Pierre-Emerick Aubameyang", team: "Marseille", role: "Attaquant", stats: "18 buts cette saison" },
+        { name: "Alexandre Lacazette", team: "Lyon", role: "Attaquant", stats: "15 buts cette saison" }
+      ],
+      scorePredictions: [
+        { score: "1-1", probability: "35%" },
+        { score: "2-2", probability: "20%" },
+        { score: "1-0", probability: "15%" }
+      ],
+      scorers: [
+        { name: "Pierre-Emerick Aubameyang", team: "Marseille", probability: "45%" },
+        { name: "Alexandre Lacazette", team: "Lyon", probability: "40%" },
+        { name: "Rayan Cherki", team: "Lyon", probability: "20%" }
+      ]
+    },
+    {
+      id: 3,
+      homeTeam: "Real Madrid",
+      awayTeam: "FC Barcelone",
+      homeScore: null,
+      awayScore: null,
+      homeOdds: "2.20",
+      drawOdds: "3.60",
+      awayOdds: "3.00",
+      date: "2025-04-25 21:00",
+      competition: "La Liga",
+      prediction: "Real Madrid gagne",
+      analysis: "Le Clasico s'annonce favorable au Real Madrid qui joue à domicile. L'équipe de Carlo Ancelotti est dans une forme exceptionnelle et n'a perdu qu'un seul match à domicile cette saison. Le Barça est en reconstruction et pourrait souffrir face à l'intensité madrilène.",
+      keyPlayers: [
+        { name: "Vinicius Jr", team: "Real Madrid", role: "Ailier", stats: "19 buts, 13 passes décisives" },
+        { name: "Robert Lewandowski", team: "FC Barcelone", role: "Attaquant", stats: "23 buts cette saison" }
+      ],
+      scorePredictions: [
+        { score: "2-1", probability: "25%" },
+        { score: "3-1", probability: "20%" },
+        { score: "2-0", probability: "15%" }
+      ],
+      scorers: [
+        { name: "Vinicius Jr", team: "Real Madrid", probability: "50%" },
+        { name: "Robert Lewandowski", team: "FC Barcelone", probability: "45%" },
+        { name: "Jude Bellingham", team: "Real Madrid", probability: "30%" }
+      ]
+    }
   ];
-  
-  const matches = [];
-  for (let i = 0; i < 6; i += 2) {
-    matches.push({
-      id: i/2,
-      homeTeam: teams[i],
-      awayTeam: teams[i+1],
-      homeScore: getRandomScore(),
-      awayScore: getRandomScore(),
-      homeOdds: getRandomOdds(),
-      drawOdds: getRandomOdds(),
-      awayOdds: getRandomOdds(),
-      prediction: Math.random() > 0.5 
-        ? `${teams[i]} gagne` 
-        : Math.random() > 0.5 
-          ? `${teams[i+1]} gagne`
-          : "Match nul",
-      analysis: `Match très disputé entre ces deux équipes. Basé sur les statistiques récentes, ${teams[i]} a remporté 3 de ses 5 derniers matchs, tandis que ${teams[i+1]} reste sur une série de 2 défaites.`
-    });
-  }
-  return matches;
 };
 
-// Available leagues data
 const leagues = [
   { id: "ligue1", name: "Ligue 1" },
   { id: "premierLeague", name: "Premier League" },
@@ -71,7 +119,6 @@ const leagues = [
   { id: "serieA", name: "Serie A" }
 ];
 
-// Mock data for different leagues (in real app, this would come from an API)
 const getTopScorers = (league: string) => {
   const data = {
     ligue1: [
@@ -84,7 +131,21 @@ const getTopScorers = (league: string) => {
       { name: "Mohamed Salah", team: "Liverpool", goals: 24, image: "https://img.a.transfermarkt.technology/portrait/big/148455-1682683953.jpg" },
       { name: "Harry Kane", team: "Bayern Munich", goals: 23, image: "https://img.a.transfermarkt.technology/portrait/big/132098-1682683920.jpg" },
     ],
-    // ... add more leagues with similar data structure
+    laLiga: [
+      { name: "Robert Lewandowski", team: "Barcelona", goals: 23, image: "https://img.a.transfermarkt.technology/portrait/big/38253-1682683694.jpg" },
+      { name: "Vinicius Jr", team: "Real Madrid", goals: 19, image: "https://img.a.transfermarkt.technology/portrait/big/371998-1682683672.jpg" },
+      { name: "Jude Bellingham", team: "Real Madrid", goals: 17, image: "https://img.a.transfermarkt.technology/portrait/big/581678-1682683661.jpg" },
+    ],
+    bundesliga: [
+      { name: "Harry Kane", team: "Bayern Munich", goals: 33, image: "https://img.a.transfermarkt.technology/portrait/big/132098-1682683920.jpg" },
+      { name: "Serhou Guirassy", team: "Stuttgart", goals: 25, image: "https://img.a.transfermarkt.technology/portrait/big/270541-1682683900.jpg" },
+      { name: "Lois Openda", team: "RB Leipzig", goals: 21, image: "https://img.a.transfermarkt.technology/portrait/big/377407-1682683893.jpg" },
+    ],
+    serieA: [
+      { name: "Lautaro Martinez", team: "Inter", goals: 24, image: "https://img.a.transfermarkt.technology/portrait/big/406625-1682683783.jpg" },
+      { name: "Victor Osimhen", team: "Napoli", goals: 18, image: "https://img.a.transfermarkt.technology/portrait/big/401923-1682683797.jpg" },
+      { name: "Dusan Vlahovic", team: "Juventus", goals: 16, image: "https://img.a.transfermarkt.technology/portrait/big/357847-1682683782.jpg" },
+    ],
   };
   return data[league as keyof typeof data] || [];
 };
@@ -93,15 +154,29 @@ const getTopAssists = (league: string) => {
   const data = {
     ligue1: [
       { name: "Ousmane Dembélé", team: "PSG", assists: 15, image: "https://img.a.transfermarkt.technology/portrait/big/288230-1682683674.jpg" },
-      { name: "Lionel Messi", team: "Inter Miami", assists: 14, image: "https://img.a.transfermarkt.technology/portrait/big/28003-1694590403.jpg" },
-      { name: "Neymar", team: "Al-Hilal", assists: 12, image: "https://img.a.transfermarkt.technology/portrait/big/68290-1682683677.jpg" },
+      { name: "Romain Faivre", team: "Lorient", assists: 14, image: "https://img.a.transfermarkt.technology/portrait/big/475639-1682683691.jpg" },
+      { name: "Bradley Barcola", team: "PSG", assists: 12, image: "https://img.a.transfermarkt.technology/portrait/big/730502-1682683693.jpg" },
     ],
     premierLeague: [
       { name: "Kevin De Bruyne", team: "Manchester City", assists: 16, image: "https://img.a.transfermarkt.technology/portrait/big/88755-1682683674.jpg" },
       { name: "Bruno Fernandes", team: "Manchester United", assists: 14, image: "https://img.a.transfermarkt.technology/portrait/big/240306-1682683658.jpg" },
       { name: "Bukayo Saka", team: "Arsenal", assists: 12, image: "https://img.a.transfermarkt.technology/portrait/big/433177-1682683563.jpg" },
     ],
-    // ... add more leagues with similar data structure
+    laLiga: [
+      { name: "Rodrygo", team: "Real Madrid", assists: 10, image: "https://img.a.transfermarkt.technology/portrait/big/412363-1682683671.jpg" },
+      { name: "Antoine Griezmann", team: "Atletico Madrid", assists: 9, image: "https://img.a.transfermarkt.technology/portrait/big/125781-1682683673.jpg" },
+      { name: "Iago Aspas", team: "Celta Vigo", assists: 8, image: "https://img.a.transfermarkt.technology/portrait/big/72457-1682683676.jpg" },
+    ],
+    bundesliga: [
+      { name: "Florian Wirtz", team: "Bayer Leverkusen", assists: 13, image: "https://img.a.transfermarkt.technology/portrait/big/521942-1682683896.jpg" },
+      { name: "Jamal Musiala", team: "Bayern Munich", assists: 10, image: "https://img.a.transfermarkt.technology/portrait/big/580195-1682683898.jpg" },
+      { name: "Xavi Simons", team: "RB Leipzig", assists: 9, image: "https://img.a.transfermarkt.technology/portrait/big/566931-1682683892.jpg" },
+    ],
+    serieA: [
+      { name: "Khvicha Kvaratskhelia", team: "Napoli", assists: 11, image: "https://img.a.transfermarkt.technology/portrait/big/557055-1682683797.jpg" },
+      { name: "Hakan Calhanoglu", team: "Inter", assists: 10, image: "https://img.a.transfermarkt.technology/portrait/big/126414-1682683784.jpg" },
+      { name: "Paulo Dybala", team: "Roma", assists: 9, image: "https://img.a.transfermarkt.technology/portrait/big/206050-1682683794.jpg" },
+    ],
   };
   return data[league as keyof typeof data] || [];
 };
@@ -118,7 +193,21 @@ const getTopReferees = (league: string) => {
       { name: "Anthony Taylor", cards: 88, image: "https://img.a.transfermarkt.technology/portrait/big/referee-15157-1692091897.jpg" },
       { name: "Paul Tierney", cards: 82, image: "https://img.a.transfermarkt.technology/portrait/big/referee-15162-1692091897.jpg" },
     ],
-    // ... add more leagues with similar data structure
+    laLiga: [
+      { name: "Mateu Lahoz", cards: 92, image: "https://img.a.transfermarkt.technology/portrait/big/referee-15321-1692091897.jpg" },
+      { name: "Gil Manzano", cards: 87, image: "https://img.a.transfermarkt.technology/portrait/big/referee-15322-1692091897.jpg" },
+      { name: "Martinez Munuera", cards: 80, image: "https://img.a.transfermarkt.technology/portrait/big/referee-15323-1692091897.jpg" },
+    ],
+    bundesliga: [
+      { name: "Felix Zwayer", cards: 78, image: "https://img.a.transfermarkt.technology/portrait/big/referee-15701-1692091897.jpg" },
+      { name: "Daniel Siebert", cards: 73, image: "https://img.a.transfermarkt.technology/portrait/big/referee-15702-1692091897.jpg" },
+      { name: "Felix Brych", cards: 70, image: "https://img.a.transfermarkt.technology/portrait/big/referee-15703-1692091897.jpg" },
+    ],
+    serieA: [
+      { name: "Daniele Orsato", cards: 89, image: "https://img.a.transfermarkt.technology/portrait/big/referee-15501-1692091897.jpg" },
+      { name: "Marco Guida", cards: 83, image: "https://img.a.transfermarkt.technology/portrait/big/referee-15502-1692091897.jpg" },
+      { name: "Davide Massa", cards: 79, image: "https://img.a.transfermarkt.technology/portrait/big/referee-15503-1692091897.jpg" },
+    ],
   };
   return data[league as keyof typeof data] || [];
 };
@@ -128,20 +217,19 @@ const VipAccess = () => {
   const { toast } = useToast();
   const [authenticated, setAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState('predictions');
-  const [matches, setMatches] = useState(generateMatches());
+  const [matches, setMatches] = useState(generateRealMatches());
   const [refreshing, setRefreshing] = useState(false);
   const [selectedLeague, setSelectedLeague] = useState("ligue1");
   const [selectedStatsTab, setSelectedStatsTab] = useState('scorers');
 
   useEffect(() => {
-    // Check authentication status
     setAuthenticated(isLoggedIn());
   }, []);
 
   const refreshData = () => {
     setRefreshing(true);
     setTimeout(() => {
-      setMatches(generateMatches());
+      setMatches(generateRealMatches());
       setRefreshing(false);
       toast({
         title: "Données mises à jour",
@@ -196,7 +284,7 @@ const VipAccess = () => {
             </div>
             <div className="grid gap-4">
               {getTopScorers(selectedLeague).map((scorer, index) => (
-                <div key={index} className="flex items-center gap-4 p-4 bg-white rounded-lg shadow">
+                <div key={index} className="flex items-center gap-4 p-4 bg-white rounded-lg shadow hover:scale-105 transition-transform duration-300">
                   <Avatar className="h-16 w-16">
                     <AvatarImage src={scorer.image} alt={scorer.name} />
                     <AvatarFallback><Users /></AvatarFallback>
@@ -233,7 +321,7 @@ const VipAccess = () => {
             </div>
             <div className="grid gap-4">
               {getTopAssists(selectedLeague).map((assister, index) => (
-                <div key={index} className="flex items-center gap-4 p-4 bg-white rounded-lg shadow">
+                <div key={index} className="flex items-center gap-4 p-4 bg-white rounded-lg shadow hover:scale-105 transition-transform duration-300">
                   <Avatar className="h-16 w-16">
                     <AvatarImage src={assister.image} alt={assister.name} />
                     <AvatarFallback><Users /></AvatarFallback>
@@ -270,7 +358,7 @@ const VipAccess = () => {
             </div>
             <div className="grid gap-4">
               {getTopReferees(selectedLeague).map((referee, index) => (
-                <div key={index} className="flex items-center gap-4 p-4 bg-white rounded-lg shadow">
+                <div key={index} className="flex items-center gap-4 p-4 bg-white rounded-lg shadow hover:scale-105 transition-transform duration-300">
                   <Avatar className="h-16 w-16">
                     <AvatarImage src={referee.image} alt={referee.name} />
                     <AvatarFallback><Users /></AvatarFallback>
@@ -294,18 +382,18 @@ const VipAccess = () => {
       <Header />
       <main className="flex-grow container mx-auto px-4 py-8">
         <div className="bg-black/70 rounded-lg p-6 text-white">
-          <h1 className="text-3xl font-bold text-center mb-8">Espace VIP - PRONOS STATS EMPIRE</h1>
+          <h1 className="text-3xl font-bold text-center mb-8 animate-fade-in">Espace VIP - PRONOS STATS EMPIRE</h1>
           
           <div className="flex flex-wrap border-b mb-6 border-gray-600">
             <button 
               onClick={() => setActiveTab('predictions')}
-              className={`px-4 py-2 ${activeTab === 'predictions' ? 'border-b-2 border-akatsuki-gold text-akatsuki-gold font-semibold' : 'text-gray-300'}`}
+              className={`px-4 py-2 ${activeTab === 'predictions' ? 'border-b-2 border-akatsuki-gold text-akatsuki-gold font-semibold' : 'text-gray-300'} transition-colors`}
             >
               Pronostics du jour
             </button>
             <button 
               onClick={() => setActiveTab('stats')}
-              className={`px-4 py-2 ${activeTab === 'stats' ? 'border-b-2 border-akatsuki-gold text-akatsuki-gold font-semibold' : 'text-gray-300'}`}
+              className={`px-4 py-2 ${activeTab === 'stats' ? 'border-b-2 border-akatsuki-gold text-akatsuki-gold font-semibold' : 'text-gray-300'} transition-colors`}
             >
               Valeurs sûres
             </button>
@@ -342,20 +430,23 @@ const VipAccess = () => {
             <Button 
               onClick={refreshData}
               disabled={refreshing}
-              className="bg-akatsuki-gold hover:bg-yellow-500 text-black"
+              className="bg-akatsuki-gold hover:bg-yellow-500 text-black hover:scale-105 transition-transform"
             >
               {refreshing ? 'Actualisation...' : 'Actualiser les données'}
             </Button>
           </div>
 
           {activeTab === 'predictions' && (
-            <div className="space-y-8">
-              <h2 className="text-2xl font-semibold">Pronostics du jour</h2>
+            <div className="space-y-8 animate-fade-in">
+              <h2 className="text-2xl font-semibold">Pronostics du jour - {new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h2>
               {matches.map(match => (
-                <div key={match.id} className="bg-white rounded-lg shadow-lg p-6 text-black">
+                <div key={match.id} className="bg-white rounded-lg shadow-lg p-6 text-black hover:shadow-xl transition-all">
                   <div className="flex flex-col md:flex-row justify-between items-center mb-4">
-                    <div className="text-xl font-bold mb-2 md:mb-0">
-                      {match.homeTeam} vs {match.awayTeam}
+                    <div>
+                      <div className="text-xs text-gray-500">{match.competition} - {new Date(match.date).toLocaleDateString('fr-FR', {day: '2-digit', month: '2-digit'}) + ' ' + new Date(match.date).toLocaleTimeString('fr-FR', {hour: '2-digit', minute:'2-digit'})}</div>
+                      <div className="text-xl font-bold mb-2 md:mb-0">
+                        {match.homeTeam} vs {match.awayTeam}
+                      </div>
                     </div>
                     <div className="flex space-x-4 text-sm">
                       <div className="bg-gray-100 px-3 py-1 rounded-full">
@@ -374,22 +465,33 @@ const VipAccess = () => {
                     <h3 className="text-lg font-semibold mb-2">Notre prédiction: <span className="text-akatsuki">{match.prediction}</span></h3>
                     <p>{match.analysis}</p>
                   </div>
+
+                  <div className="mb-4">
+                    <BettingSimulator
+                      matchId={match.id}
+                      homeTeam={match.homeTeam}
+                      awayTeam={match.awayTeam}
+                      homeOdds={match.homeOdds}
+                      drawOdds={match.drawOdds}
+                      awayOdds={match.awayOdds}
+                    />
+                  </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-gray-50 p-4 rounded-lg">
                       <h4 className="font-semibold mb-2">Buteurs potentiels:</h4>
                       <ul className="list-disc list-inside">
-                        <li>Benzema ({match.homeTeam}) - 40%</li>
-                        <li>Lewandowski ({match.awayTeam}) - 35%</li>
-                        <li>Vinicius ({match.homeTeam}) - 25%</li>
+                        {match.scorers.map((scorer, i) => (
+                          <li key={i}>{scorer.name} ({scorer.team}) - {scorer.probability}</li>
+                        ))}
                       </ul>
                     </div>
                     <div className="bg-gray-50 p-4 rounded-lg">
                       <h4 className="font-semibold mb-2">Score exact:</h4>
                       <ul className="list-disc list-inside">
-                        <li>2-1: 25%</li>
-                        <li>1-1: 20%</li>
-                        <li>2-0: 15%</li>
+                        {match.scorePredictions.map((pred, i) => (
+                          <li key={i}>{pred.score}: {pred.probability}</li>
+                        ))}
                       </ul>
                     </div>
                   </div>
