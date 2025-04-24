@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
@@ -11,7 +10,7 @@ export const Hero = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <div className="cloud relative bg-black/80 p-6 rounded-full shadow-lg max-w-md mx-auto hover:shadow-[0_0_30px_rgba(34,197,94,0.5)] transition-all duration-300 hover:-translate-y-2 border border-green-500/30">
+        <div className="relative bg-black/80 p-6 rounded-full shadow-lg max-w-md mx-auto hover:shadow-[0_0_30px_rgba(34,197,94,0.5)] transition-all duration-300 hover:-translate-y-2 border border-green-500/30">
           <h1 className="text-4xl md:text-5xl font-bold text-green-500">PRONOS STATS EMPIRE</h1>
         </div>
         <div className="stars text-green-400 text-2xl md:text-3xl mt-4">★ ★ ★</div>

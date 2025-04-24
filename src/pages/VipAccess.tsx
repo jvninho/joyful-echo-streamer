@@ -154,7 +154,7 @@ const getTopScorers = (league: string) => {
 const getTopAssists = (league: string) => {
   const data = {
     ligue1: [
-      { name: "Ousmane Dembélé", team: "PSG", assists: 15, image: "https://img.a.transfermarkt.technology/portrait/big/288230-1682683674.jpg" },
+      { name: "Ousmane Demb��lé", team: "PSG", assists: 15, image: "https://img.a.transfermarkt.technology/portrait/big/288230-1682683674.jpg" },
       { name: "Romain Faivre", team: "Lorient", assists: 14, image: "https://img.a.transfermarkt.technology/portrait/big/475639-1682683691.jpg" },
       { name: "Bradley Barcola", team: "PSG", assists: 12, image: "https://img.a.transfermarkt.technology/portrait/big/730502-1682683693.jpg" },
     ],
@@ -269,103 +269,21 @@ const VipAccess = () => {
   const renderStatsContent = () => {
     switch (selectedStatsTab) {
       case 'scorers':
-        return (
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h3 className="text-xl font-semibold flex items-center gap-2 text-white">
-                <Award className="h-5 w-5" /> Top Buteurs
-              </h3>
-              <Select value={selectedLeague} onValueChange={setSelectedLeague}>
-                <SelectTrigger className="w-[180px] bg-white text-black">
-                  <SelectValue placeholder="Sélectionner un championnat" />
-                </SelectTrigger>
-                <SelectContent>
-                  {leagues.map((league) => (
-                    <SelectItem key={league.id} value={league.id}>
-                      {league.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="grid gap-4">
-              {getTopScorers(selectedLeague).map((scorer, index) => (
-                <motion.div 
-                  key={index} 
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                  className="flex items-center gap-4 p-4 bg-white rounded-lg shadow text-black"
-                >
-                  <Avatar className="h-16 w-16">
-                    <AvatarImage src={scorer.image} alt={scorer.name} />
-                    <AvatarFallback><Users /></AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1">
-                    <h4 className="font-semibold text-black">{scorer.name}</h4>
-                    <p className="text-sm text-black">{scorer.team}</p>
-                  </div>
-                  <div className="text-2xl font-bold text-green-600">{scorer.goals}</div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        );
       case 'assists':
-        return (
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h3 className="text-xl font-semibold flex items-center gap-2 text-white">
-                <Award className="h-5 w-5" /> Top Passeurs
-              </h3>
-              <Select value={selectedLeague} onValueChange={setSelectedLeague}>
-                <SelectTrigger className="w-[180px] bg-white text-black">
-                  <SelectValue placeholder="Sélectionner un championnat" />
-                </SelectTrigger>
-                <SelectContent>
-                  {leagues.map((league) => (
-                    <SelectItem key={league.id} value={league.id}>
-                      {league.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="grid gap-4">
-              {getTopAssists(selectedLeague).map((assister, index) => (
-                <motion.div 
-                  key={index} 
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                  className="flex items-center gap-4 p-4 bg-white rounded-lg shadow text-black"
-                >
-                  <Avatar className="h-16 w-16">
-                    <AvatarImage src={assister.image} alt={assister.name} />
-                    <AvatarFallback><Users /></AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1">
-                    <h4 className="font-semibold text-black">{assister.name}</h4>
-                    <p className="text-sm text-black">{assister.team}</p>
-                  </div>
-                  <div className="text-2xl font-bold text-green-600">{assister.assists}</div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        );
       case 'referees':
         return (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h3 className="text-xl font-semibold flex items-center gap-2 text-white">
-                <Award className="h-5 w-5" /> Top Arbitres
+              <h3 className="text-xl font-semibold flex items-center gap-2 text-green-400">
+                <Award className="h-5 w-5" /> {selectedStatsTab === 'scorers' ? 'Top Buteurs' : selectedStatsTab === 'assists' ? 'Top Passeurs' : 'Top Arbitres'}
               </h3>
               <Select value={selectedLeague} onValueChange={setSelectedLeague}>
-                <SelectTrigger className="w-[180px] bg-white text-black">
+                <SelectTrigger className="w-[180px] bg-black text-green-400 border-green-500">
                   <SelectValue placeholder="Sélectionner un championnat" />
                 </SelectTrigger>
                 <SelectContent>
                   {leagues.map((league) => (
-                    <SelectItem key={league.id} value={league.id}>
+                    <SelectItem key={league.id} value={league.id} className="text-green-400">
                       {league.name}
                     </SelectItem>
                   ))}
@@ -373,21 +291,28 @@ const VipAccess = () => {
               </Select>
             </div>
             <div className="grid gap-4">
-              {getTopReferees(selectedLeague).map((referee, index) => (
+              {(selectedStatsTab === 'scorers' ? getTopScorers(selectedLeague) :
+                selectedStatsTab === 'assists' ? getTopAssists(selectedLeague) :
+                getTopReferees(selectedLeague)).map((item, index) => (
                 <motion.div 
                   key={index} 
                   whileHover={{ scale: 1.02 }}
                   transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                  className="flex items-center gap-4 p-4 bg-white rounded-lg shadow text-black"
+                  className="flex items-center gap-4 p-4 bg-black rounded-lg border border-green-500/30 shadow"
                 >
                   <Avatar className="h-16 w-16">
-                    <AvatarImage src={referee.image} alt={referee.name} />
-                    <AvatarFallback><Users /></AvatarFallback>
+                    <AvatarImage src={item.image} alt={item.name} />
+                    <AvatarFallback><Users className="text-green-500" /></AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
-                    <h4 className="font-semibold text-black">{referee.name}</h4>
+                    <h4 className="font-semibold text-green-400">{item.name}</h4>
+                    {'team' in item && <p className="text-sm text-green-500">{item.team}</p>}
                   </div>
-                  <div className="text-2xl font-bold text-green-600">{referee.cards} 🟨</div>
+                  <div className="text-2xl font-bold text-green-500">
+                    {'goals' in item ? item.goals :
+                     'assists' in item ? item.assists :
+                     'cards' in item ? `${item.cards} 🟨` : ''}
+                  </div>
                 </motion.div>
               ))}
             </div>
