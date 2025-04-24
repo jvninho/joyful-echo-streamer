@@ -4,12 +4,13 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/lib/supabaseClient";
+import { getCollection, UserProfile } from "@/lib/mongoClient";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Loader2 } from "lucide-react";
+import { ObjectId } from "mongodb";
 
-interface UserProfile {
+interface UserProfileWithData {
   id: string;
   full_name: string;
   email: string;
@@ -23,7 +24,7 @@ interface UserProfile {
 }
 
 const AdminDashboard = () => {
-  const [users, setUsers] = useState<UserProfile[]>([]);
+  const [users, setUsers] = useState<UserProfileWithData[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const { toast } = useToast();
@@ -34,49 +35,61 @@ const AdminDashboard = () => {
   }, []);
 
   const checkAdminStatus = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
-
-    const { data: profile } = await supabase
-      .from('user_profiles')
-      .select('is_admin')
-      .eq('user_id', user.id)
-      .single();
-
-    setIsAdmin(profile?.is_admin || false);
+    try {
+      // Pour le développement, on peut simuler un admin
+      const localUser = localStorage.getItem('frg-user');
+      if (!localUser) return;
+      
+      const userData = JSON.parse(localUser);
+      const email = userData.email;
+      
+      const usersCollection = await getCollection('pronostics', 'user_profiles');
+      const adminUser = await usersCollection.findOne({ 
+        email: email,
+        is_admin: true
+      });
+      
+      setIsAdmin(!!adminUser);
+    } catch (error) {
+      console.error("Erreur lors de la vérification du statut d'administrateur:", error);
+      setIsAdmin(false);
+    }
   };
 
   const fetchUsers = async () => {
     try {
-      const { data: profiles, error } = await supabase
-        .from('user_profiles')
-        .select(`
-          *,
-          users (
-            email,
-            created_at
-          ),
-          subscriptions (
-            plan_type,
-            status,
-            start_date,
-            end_date
-          )
-        `)
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-
-      const formattedUsers = profiles.map((profile: any) => ({
-        id: profile.id,
-        full_name: profile.full_name,
-        email: profile.users.email,
-        created_at: new Date(profile.users.created_at).toLocaleDateString('fr-FR'),
-        subscription: profile.subscriptions?.[0],
-      }));
+      const usersCollection = await getCollection('pronostics', 'user_profiles');
+      const subscriptionsCollection = await getCollection('pronostics', 'subscriptions');
+      
+      const allUsers = await usersCollection.find({}).toArray();
+      const userSubscriptions = await subscriptionsCollection.find({}).toArray();
+      
+      // Map des abonnements par user_id pour un accès rapide
+      const subscriptionMap = new Map(
+        userSubscriptions.map(sub => [sub.user_id, sub])
+      );
+      
+      const formattedUsers = allUsers.map(profile => {
+        // Récupérer l'abonnement correspondant au profil utilisateur
+        const subscription = subscriptionMap.get(profile.user_id);
+        
+        return {
+          id: profile._id.toString(),
+          full_name: profile.full_name || 'Utilisateur',
+          email: profile.email || 'Email inconnu',
+          created_at: new Date(profile.created_at || Date.now()).toLocaleDateString('fr-FR'),
+          subscription: subscription ? {
+            plan_type: subscription.plan_type,
+            status: subscription.status,
+            start_date: new Date(subscription.start_date).toLocaleDateString('fr-FR'),
+            end_date: subscription.end_date ? new Date(subscription.end_date).toLocaleDateString('fr-FR') : 'N/A'
+          } : undefined
+        };
+      });
 
       setUsers(formattedUsers);
     } catch (error) {
+      console.error("Erreur lors de la récupération des utilisateurs:", error);
       toast({
         title: "Erreur",
         description: "Impossible de charger les utilisateurs",
