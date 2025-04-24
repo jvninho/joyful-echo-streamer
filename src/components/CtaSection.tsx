@@ -36,14 +36,13 @@ export const CtaSection = () => {
           
           <OfferCard 
             title="PREMIUM" 
-            price="59,99€" 
+            price="49,99€" 
             period="par mois"
             featured={true}
             features={[
               "15 pronostics par semaine",
               "Analyse détaillée des matchs",
               "Conseils personnalisés",
-              "Accès groupe Telegram VIP",
               "Support prioritaire"
             ]}
             onSelect={handlePlanSelection}
