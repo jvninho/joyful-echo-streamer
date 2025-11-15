@@ -43,7 +43,7 @@ const Index = () => {
       {/* Scroll to top button */}
       {showScrollTop && (
         <Button 
-          className="fixed bottom-8 right-8 p-3 rounded-full bg-akatsuki hover:bg-akatsuki-dark shadow-lg z-50"
+          className="fixed bottom-8 right-8 p-3 rounded-full bg-gradient-to-r from-primary to-secondary hover:scale-110 shadow-2xl hover:shadow-[0_0_30px_rgba(34,211,238,0.6)] transition-all z-50"
           onClick={scrollToTop}
           aria-label="Retour en haut"
         >

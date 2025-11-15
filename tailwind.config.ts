@@ -52,12 +52,16 @@ export default {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))'
         },
-        football: {
-          DEFAULT: '#22c55e',
-          dark: '#15803d',
-          light: '#4ade80',
-          gold: '#22c55e',
-          black: '#0a0a0a'
+        neon: {
+          cyan: '#22d3ee',
+          purple: '#a855f7',
+          pink: '#ec4899',
+          blue: '#3b82f6',
+        },
+        gradient: {
+          from: '#22d3ee',
+          via: '#a855f7',
+          to: '#ec4899',
         },
         sidebar: {
           DEFAULT: 'hsl(var(--sidebar-background))',
